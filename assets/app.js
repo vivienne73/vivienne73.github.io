@@ -1,114 +1,212 @@
-// ====== Cursor glow ======
-const glow = document.getElementById("cursorGlow");
-window.addEventListener("mousemove", (e) => {
-  if (!glow) return;
-  glow.style.left = e.clientX + "px";
-  glow.style.top = e.clientY + "px";
-});
+// =====================================================
+// Vivienne Portfolio v5 (no main.js, only assets/app.js)
+// =====================================================
 
-// ====== Year ======
-const yearEl = document.getElementById("year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
+(function () {
+  // ---------- helpers ----------
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-// ====== Scroll reveal ======
-const revealEls = Array.from(document.querySelectorAll(".reveal"));
-const io = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) en.target.classList.add("is-visible");
+  // ---------- year ----------
+  const yearEl = $("#year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ---------- cursor glow ----------
+  const glow = $("#cursorGlow");
+  if (glow) {
+    window.addEventListener("mousemove", (e) => {
+      glow.style.left = (e.clientX - 110) + "px";
+      glow.style.top = (e.clientY - 110) + "px";
+    }, { passive: true });
+
+    // mobile：轻微跟随触摸
+    window.addEventListener("touchmove", (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      glow.style.left = (t.clientX - 110) + "px";
+      glow.style.top = (t.clientY - 110) + "px";
+    }, { passive: true });
+  }
+
+  // ---------- scroll reveal ----------
+  const revealEls = $$(".reveal");
+  if (revealEls.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) en.target.classList.add("is-in");
+      });
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // ---------- night mode ----------
+  const modeBtn = $("#modeBtn");
+  const setModeText = () => {
+    if (!modeBtn) return;
+    modeBtn.textContent = document.body.classList.contains("night") ? "day" : "night";
+  };
+
+  if (modeBtn) {
+    // 恢复上次
+    const saved = localStorage.getItem("v_mode");
+    if (saved === "night") document.body.classList.add("night");
+    setModeText();
+
+    modeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("night");
+      localStorage.setItem("v_mode", document.body.classList.contains("night") ? "night" : "day");
+      setModeText();
     });
-  },
-  { threshold: 0.12 }
-);
-revealEls.forEach((el) => io.observe(el));
+  }
 
-// ====== Typewriter (multi states) ======
-const twText = document.getElementById("twText");
-const lines = [
-  "这里是我的个人空间。",
-  "不用有用，不用解释。",
-  "只要它像我。",
-  "soft pink • glass • gentle motion"
-];
+  // ---------- typewriter (multi states) ----------
+  const typeEl = $("#typeText");
+  const phrases = [
+    "soft pink, soft heart.",
+    "glass UI, but real feelings.",
+    "leave space. leave light.",
+    "make it gentle, make it mine."
+  ];
 
-let lineIdx = 0;
-let charIdx = 0;
-let deleting = false;
+  let p = 0, i = 0, deleting = false;
 
-function tick() {
-  if (!twText) return;
+  function tick() {
+    if (!typeEl) return;
 
-  const current = lines[lineIdx];
-
-  if (!deleting) {
-    twText.textContent = current.slice(0, charIdx++);
-    if (charIdx > current.length + 10) {
-      deleting = true;
+    const current = phrases[p];
+    if (!deleting) {
+      i++;
+      typeEl.textContent = current.slice(0, i);
+      if (i >= current.length) {
+        deleting = true;
+        setTimeout(tick, 900);
+        return;
+      }
+    } else {
+      i--;
+      typeEl.textContent = current.slice(0, i);
+      if (i <= 0) {
+        deleting = false;
+        p = (p + 1) % phrases.length;
+      }
     }
-  } else {
-    twText.textContent = current.slice(0, charIdx--);
-    if (charIdx < 0) {
-      deleting = false;
-      charIdx = 0;
-      lineIdx = (lineIdx + 1) % lines.length;
+    setTimeout(tick, deleting ? 35 : 55);
+  }
+  tick();
+
+  // ---------- note (local storage) ----------
+  const noteForm = $("#noteForm");
+  const noteName = $("#noteName");
+  const noteText = $("#noteText");
+  const noteStatus = $("#noteStatus");
+  const clearBtn = $("#clearNoteBtn");
+
+  const loadNote = () => {
+    const data = localStorage.getItem("v_note");
+    if (!data) return;
+    try {
+      const obj = JSON.parse(data);
+      if (noteName) noteName.value = obj.name || "";
+      if (noteText) noteText.value = obj.text || "";
+      if (noteStatus) noteStatus.textContent = "已恢复上次保存";
+    } catch {}
+  };
+
+  const saveNote = () => {
+    const obj = {
+      name: noteName ? noteName.value.trim() : "",
+      text: noteText ? noteText.value.trim() : "",
+      t: Date.now()
+    };
+    localStorage.setItem("v_note", JSON.stringify(obj));
+    if (noteStatus) noteStatus.textContent = "saved ✓";
+    setTimeout(() => { if (noteStatus) noteStatus.textContent = ""; }, 1200);
+  };
+
+  const clearNote = () => {
+    localStorage.removeItem("v_note");
+    if (noteName) noteName.value = "";
+    if (noteText) noteText.value = "";
+    if (noteStatus) noteStatus.textContent = "cleared";
+    setTimeout(() => { if (noteStatus) noteStatus.textContent = ""; }, 1200);
+  };
+
+  if (noteForm) {
+    loadNote();
+    noteForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      saveNote();
+    });
+  }
+  if (clearBtn) clearBtn.addEventListener("click", clearNote);
+
+  // ---------- v5 entry (glass dissolve) + music ----------
+  const entry = $("#entry");
+  const enterBtn = $("#enterBtn");
+  const musicBtn = $("#musicBtn");
+  const bgm = $("#bgm");
+  let musicOn = false;
+
+  function updateMusicBtn() {
+    if (!musicBtn) return;
+    musicBtn.textContent = musicOn ? "music: on" : "music: off";
+  }
+
+  async function toggleMusic() {
+    if (!bgm) {
+      // 没有 bgm.mp3 也不报错
+      musicOn = !musicOn;
+      updateMusicBtn();
+      return;
+    }
+    try {
+      if (!musicOn) {
+        await bgm.play();
+        musicOn = true;
+      } else {
+        bgm.pause();
+        musicOn = false;
+      }
+      updateMusicBtn();
+    } catch (err) {
+      // iOS/浏览器可能拦截，必须用户点击才行
+      musicOn = false;
+      updateMusicBtn();
+      console.warn("Music blocked by browser. Click enter first.");
     }
   }
 
-  const speed = deleting ? 28 : 42;
-  setTimeout(tick, speed);
-}
-tick();
+  function leaveEntry() {
+    if (!entry) return;
+    if (entry.classList.contains("is-leaving")) return;
 
-// ====== Entry gate + optional music ======
-const entry = document.getElementById("entry");
-const enterBtn = document.getElementById("enterBtn");
-const musicBtn = document.getElementById("musicBtn");
-const themeBtn = document.getElementById("themeBtn");
+    entry.classList.add("is-leaving");
 
-// （可选）如果你以后想加背景音乐：把 mp3 放到 assets/ 里，比如 assets/bgm.mp3
-// 然后把下面的注释打开：
-// const audio = new Audio("assets/bgm.mp3");
-// audio.loop = true;
+    // enter 时尝试播放音乐（如果你想默认不播就删掉这行）
+    if (bgm && !musicOn) {
+      bgm.play().then(() => {
+        musicOn = true;
+        updateMusicBtn();
+      }).catch(() => {});
+    }
 
-let musicOn = false;
+    const finish = () => {
+      entry.classList.add("is-gone");
+    };
 
-function hideEntry() {
-  if (!entry) return;
-  entry.classList.add("hidden");
-  entry.setAttribute("aria-hidden", "true");
-}
+    // 兜底（防止 animationend 丢失）
+    setTimeout(finish, 900);
+  }
 
-enterBtn?.addEventListener("click", async () => {
-  hideEntry();
+  if (musicBtn) {
+    updateMusicBtn();
+    musicBtn.addEventListener("click", toggleMusic);
+  }
 
-  // 如果你启用了 bgm.mp3，上面 audio 取消注释，这里再取消注释即可：
-  // try {
-  //   if (!musicOn) {
-  //     await audio.play();
-  //     musicOn = true;
-  //     musicBtn.textContent = "music: on";
-  //   }
-  // } catch(e) {}
-});
+  if (enterBtn) enterBtn.addEventListener("click", leaveEntry);
 
-musicBtn?.addEventListener("click", async () => {
-  // 同样：需要你启用 audio 才有用
-  // try{
-  //   if(!musicOn){
-  //     await audio.play();
-  //     musicOn = true;
-  //     musicBtn.textContent = "music: on";
-  //   }else{
-  //     audio.pause();
-  //     musicOn = false;
-  //     musicBtn.textContent = "music: off";
-  //   }
-  // }catch(e){}
-  alert("音乐是可选项：你先把 bgm.mp3 放进 assets/ 再启用代码即可～");
-});
+  // 如果你想“点哪里都进”，打开下面这一行：
+  // if (entry) entry.addEventListener("click", leaveEntry);
 
-// ====== Night mode ======
-themeBtn?.addEventListener("click", () => {
-  document.body.classList.toggle("night");
-  themeBtn.textContent = document.body.classList.contains("night") ? "day" : "night";
-});
+})();
