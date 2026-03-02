@@ -1,55 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Project 02 — Vivienne</title>
+  <title>Project 2 — Vivienne</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css" />
 </head>
 <body>
-  <div class="bg"></div>
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-  <header class="topbar glass">
+  <header class="topbar">
     <div class="brand">
-      <span class="brand__mono">V</span>
-      <span class="brand__name">Vivienne</span>
+      <div class="brand__mark">V</div>
+      <div class="brand__text">
+        <div class="brand__name">Vivienne</div>
+        <div class="brand__sub">Project 2</div>
+      </div>
     </div>
     <nav class="nav">
-      <a class="nav__link" href=" ">home</a >
-      <a class="nav__link" href="project-1.html">project 01</a >
+      <a href=" ">home</a >
+      <a href="./project-1.html">project 1</a >
     </nav>
     <div class="topbar__right">
-      <button class="chip" id="themeBtn" type="button">night</button>
+      <button class="chip" id="modeBtn" type="button">night</button>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="hero reveal">
-      <h1 class="hero__title">Project 02</h1>
-      <p class="hero__meta">Soft Typewriter • Cursor Glow • Scroll Reveal</p >
+    <section class="section">
+      <div class="section__head reveal">
+        <h2 class="section__title">Project 2</h2>
+        <div class="section__sub">在这里写你的项目介绍。</div>
+      </div>
 
-      <article class="card glass reveal">
-        <h3 class="card__title">说明</h3>
-        <p class="muted">
-          这是打字机与动效的组合页面。你可以把它当作作品描述页 / 心情页 / blog 开头。
-        </p >
-        <div class="typewriter glass">
-          <span class="tw__label">note</span>
-          <span class="tw__text" id="twText"></span><span class="tw__cursor">|</span>
-        </div>
-
-        <div class="card__actions">
-          <a class="btn btn-primary" href="index.html#about">back</a >
-          <a class="btn btn-ghost" href="index.html#words">works</a >
-        </div>
-      </article>
+      <div class="masonry">
+        <article class="glass card reveal">
+          <h3 class="card__title">概念</h3>
+          <p class="muted">用一句话说清楚你的想法。</p >
+        </article>
+        <article class="glass card reveal">
+          <h3 class="card__title">过程</h3>
+          <p class="muted">灵感 → 草图 → 设计 → 开发 → 复盘。</p >
+        </article>
+        <article class="glass card reveal">
+          <h3 class="card__title">结果</h3>
+          <p class="muted">展示效果图 / 链接 / 你学到了什么。</p >
+        </article>
+      </div>
     </section>
   </main>
 
-  <script src="assets/main.js"></script>
+  <script src="./assets/app.js"></script>
 </body>
 </html>
