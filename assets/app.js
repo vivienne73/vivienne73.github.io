@@ -1,17 +1,12 @@
-// =====================================================
-// Vivienne Portfolio v5 (no main.js, only assets/app.js)
-// =====================================================
-
 (function () {
-  // ---------- helpers ----------
-  const $ = (sel) => document.querySelector(sel);
-  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
 
-  // ---------- year ----------
+  // year
   const yearEl = $("#year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // ---------- cursor glow ----------
+  // cursor glow
   const glow = $("#cursorGlow");
   if (glow) {
     window.addEventListener("mousemove", (e) => {
@@ -19,7 +14,6 @@
       glow.style.top = (e.clientY - 110) + "px";
     }, { passive: true });
 
-    // mobile：轻微跟随触摸
     window.addEventListener("touchmove", (e) => {
       const t = e.touches && e.touches[0];
       if (!t) return;
@@ -28,7 +22,7 @@
     }, { passive: true });
   }
 
-  // ---------- scroll reveal ----------
+  // scroll reveal
   const revealEls = $$(".reveal");
   if (revealEls.length) {
     const io = new IntersectionObserver((entries) => {
@@ -36,11 +30,10 @@
         if (en.isIntersecting) en.target.classList.add("is-in");
       });
     }, { threshold: 0.15 });
-
     revealEls.forEach(el => io.observe(el));
   }
 
-  // ---------- night mode ----------
+  // night mode
   const modeBtn = $("#modeBtn");
   const setModeText = () => {
     if (!modeBtn) return;
@@ -48,7 +41,6 @@
   };
 
   if (modeBtn) {
-    // 恢复上次
     const saved = localStorage.getItem("v_mode");
     if (saved === "night") document.body.classList.add("night");
     setModeText();
@@ -60,7 +52,7 @@
     });
   }
 
-  // ---------- typewriter (multi states) ----------
+  // typewriter (multi states)
   const typeEl = $("#typeText");
   const phrases = [
     "soft pink, soft heart.",
@@ -68,13 +60,12 @@
     "leave space. leave light.",
     "make it gentle, make it mine."
   ];
-
   let p = 0, i = 0, deleting = false;
 
   function tick() {
     if (!typeEl) return;
-
     const current = phrases[p];
+
     if (!deleting) {
       i++;
       typeEl.textContent = current.slice(0, i);
@@ -95,7 +86,12 @@
   }
   tick();
 
-  // ---------- note (local storage) ----------
+  // mood (小随机)
+  const moodEl = $("#moodText");
+  const moods = ["soft & quiet", "clean & sweet", "pink & calm", "gentle & steady"];
+  if (moodEl) moodEl.textContent = moods[Math.floor(Math.random() * moods.length)];
+
+  // note (local storage)
   const noteForm = $("#noteForm");
   const noteName = $("#noteName");
   const noteText = $("#noteText");
@@ -140,73 +136,4 @@
     });
   }
   if (clearBtn) clearBtn.addEventListener("click", clearNote);
-
-  // ---------- v5 entry (glass dissolve) + music ----------
-  const entry = $("#entry");
-  const enterBtn = $("#enterBtn");
-  const musicBtn = $("#musicBtn");
-  const bgm = $("#bgm");
-  let musicOn = false;
-
-  function updateMusicBtn() {
-    if (!musicBtn) return;
-    musicBtn.textContent = musicOn ? "music: on" : "music: off";
-  }
-
-  async function toggleMusic() {
-    if (!bgm) {
-      // 没有 bgm.mp3 也不报错
-      musicOn = !musicOn;
-      updateMusicBtn();
-      return;
-    }
-    try {
-      if (!musicOn) {
-        await bgm.play();
-        musicOn = true;
-      } else {
-        bgm.pause();
-        musicOn = false;
-      }
-      updateMusicBtn();
-    } catch (err) {
-      // iOS/浏览器可能拦截，必须用户点击才行
-      musicOn = false;
-      updateMusicBtn();
-      console.warn("Music blocked by browser. Click enter first.");
-    }
-  }
-
-  function leaveEntry() {
-    if (!entry) return;
-    if (entry.classList.contains("is-leaving")) return;
-
-    entry.classList.add("is-leaving");
-
-    // enter 时尝试播放音乐（如果你想默认不播就删掉这行）
-    if (bgm && !musicOn) {
-      bgm.play().then(() => {
-        musicOn = true;
-        updateMusicBtn();
-      }).catch(() => {});
-    }
-
-    const finish = () => {
-      entry.classList.add("is-gone");
-    };
-
-    // 兜底（防止 animationend 丢失）
-    setTimeout(finish, 900);
-  }
-
-  if (musicBtn) {
-    updateMusicBtn();
-    musicBtn.addEventListener("click", toggleMusic);
-  }
-
-  if (enterBtn) enterBtn.addEventListener("click", leaveEntry);
-
-  // 如果你想“点哪里都进”，打开下面这一行：
-  // if (entry) entry.addEventListener("click", leaveEntry);
-
 })();
