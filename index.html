@@ -1,30 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
   <title>Vivienne — Personal Space</title>
 
-  <!-- Google Fonts: 高级衬线 + 干净无衬线 -->
+  <!-- Fonts：高级衬线 + 干净无衬线 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="./assets/style.css" />
 </head>
 
 <body>
-  <!-- 背景渐变层 -->
-  <div class="bg"></div>
-
   <!-- 鼠标光晕 -->
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
-  <!-- 进入房间：门帘开场 -->
+  <!-- v5 开场（玻璃消散） -->
   <section class="entry" id="entry" aria-hidden="false">
     <div class="entry__veil"></div>
-    <div class="entry__card glass">
-      <div class="entry__hint">welcome to my room</div>
+
+    <div class="entry__card glass" id="entryCard">
+      <div class="entry__hint">WELCOME TO MY ROOM</div>
       <div class="entry__name">Vivienne</div>
       <div class="entry__sub">a soft place — only about me</div>
 
@@ -33,48 +32,75 @@
         <button class="btn btn-ghost" id="musicBtn" type="button">music: off</button>
       </div>
 
-      <div class="entry__tip">（点 enter 才会播放音乐，避免浏览器拦截）</div>
+      <div class="entry__note">（点 enter 才会播放音乐，避免浏览器拦截）</div>
     </div>
   </section>
 
   <!-- 顶部导航 -->
-  <header class="topbar glass" id="topbar">
+  <header class="topbar">
     <div class="brand">
-      <span class="brand__mono">V</span>
-      <span class="brand__name">Vivienne</span>
+      <div class="brand__mark">V</div>
+      <div class="brand__text">
+        <div class="brand__name">Vivienne</div>
+        <div class="brand__sub">Korean Pink / White • personal space</div>
+      </div>
     </div>
 
     <nav class="nav">
-      <a class="nav__link" href=" ">about</a >
-      <a class="nav__link" href="#now">now</a >
-      <a class="nav__link" href="#photos">photos</a >
-      <a class="nav__link" href="#words">words</a >
-      <a class="nav__link" href="#hello">hello</a >
+      <a href=" ">about</a >
+      <a href="#now">now</a >
+      <a href="#photos">photos</a >
+      <a href="#words">words</a >
+      <a href="#hello">hello</a >
     </nav>
 
     <div class="topbar__right">
-      <button class="chip" id="themeBtn" type="button">night</button>
+      <button class="chip" id="modeBtn" type="button">night</button>
     </div>
   </header>
 
-  <main class="wrap" id="main">
-    <!-- Hero -->
-    <section class="hero reveal">
-      <h1 class="hero__title">Vivienne</h1>
-      <p class="hero__meta">Korean Pink / White • personal space</p >
+  <!-- Hero -->
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero__left">
+        <h1 class="hero__title">Vivienne</h1>
+        <div class="typewrap">
+          <span class="type__label">typing</span>
+          <span class="type__text" id="typeText"></span><span class="type__cursor" aria-hidden="true">|</span>
+        </div>
 
-      <!-- 打字机 -->
-      <div class="typewriter glass">
-        <span class="tw__label">loading</span>
-        <span class="tw__text" id="twText"></span><span class="tw__cursor" aria-hidden="true">|</span>
+        <p class="hero__desc">
+          这是我的个人空间。<br>
+          不用有用，不用解释。<br>
+          只要它像我。
+        </p >
+
+        <div class="hero__cta">
+          <a class="btn btn-primary" href="#about">enter</a >
+          <a class="btn btn-ghost" href="#hello">leave a note</a >
+        </div>
+
+        <div class="hero__meta">Soft pink • glass UI • scroll reveal</div>
       </div>
 
-      <div class="hero__cta">
-        <a class="btn btn-primary" href="#about">enter</a >
-        <a class="btn btn-ghost" href="#hello">leave a note</a >
-      </div>
+      <div class="hero__right">
+        <div class="glass card heroCard reveal">
+          <div class="miniTitle">today mood</div>
+          <div class="miniBig" id="moodText">soft & quiet</div>
+          <div class="miniLine"></div>
+          <div class="miniRow">
+            <span class="pill">pink</span>
+            <span class="pill">clean</span>
+            <span class="pill">gentle</span>
+          </div>
+        </div>
 
-      <div class="hero__tags">Soft pink • glass UI • scroll reveal</div>
+        <div class="glass card heroCard reveal">
+          <div class="miniTitle">projects</div>
+          <a class="miniLink" href="./project-1.html">Project 1 →</a >
+          <a class="miniLink" href="./project-2.html">Project 2 →</a >
+        </div>
+      </div>
     </section>
 
     <!-- About -->
@@ -84,21 +110,26 @@
         <div class="section__sub">不是简历，只是我。</div>
       </div>
 
-      <article class="card glass reveal">
-        <h3 class="card__title">我是谁</h3>
-        <p class="muted">
-          我喜欢柔软的配色、留白，以及不急着让人明白的东西。
-          我在这里保存我自己：作品、情绪、文字、光。
-        </p >
+      <div class="grid-2">
+        <article class="glass card reveal">
+          <h3 class="card__title">我是谁</h3>
+          <p class="muted">
+            我喜欢柔软的配色、留白、以及不急着让人明白的东西。<br>
+            我在这里保存我自己：想法、作品、情绪和审美。
+          </p >
+        </article>
 
-        <div class="quote glass">
-          <div class="quote__mark">“</div>
-          <div class="quote__text">我会把世界装在自己手里。</div>
-        </div>
-      </article>
+        <article class="glass card reveal">
+          <h3 class="card__title">我在做什么</h3>
+          <p class="muted">
+            练习把喜欢的感觉做成网页：玻璃质感、微交互、清淡但有细节的排版。<br>
+            这是一个会慢慢更新的空间。
+          </p >
+        </article>
+      </div>
     </section>
 
-    <!-- Now：三卡 -->
+    <!-- Now（3卡） -->
     <section class="section" id="now">
       <div class="section__head reveal">
         <h2 class="section__title">Now</h2>
@@ -106,104 +137,92 @@
       </div>
 
       <div class="grid-3">
-        <article class="card glass reveal">
+        <article class="glass card reveal">
           <h3 class="card__title">今天</h3>
-          <p class="muted">我在练习把情绪放轻一点，把世界放清一点。</p >
+          <p class="muted">我在练习把情绪放轻一点，把边界放清一点。</p >
         </article>
-
-        <article class="card glass reveal">
+        <article class="glass card reveal">
           <h3 class="card__title">喜欢</h3>
-          <p class="muted">粉白、玻璃质感、打字声、安静但有光的页面。</p >
+          <p class="muted">粉白、低饱和、干净衬线体、慢慢展开的动画。</p >
         </article>
-
-        <article class="card glass reveal">
-          <h3 class="card__title">目标</h3>
-          <p class="muted">把作品做成「像我」的样子：甜软、克制、干净。</p >
+        <article class="glass card reveal">
+          <h3 class="card__title">想要</h3>
+          <p class="muted">让作品更像“我”，而不是像模板。</p >
         </article>
       </div>
     </section>
 
-    <!-- Photos：四格 -->
+    <!-- Photos（四格图） -->
     <section class="section" id="photos">
       <div class="section__head reveal">
         <h2 class="section__title">Photos</h2>
-        <div class="section__sub">四格：留白、光、温柔。</div>
+        <div class="section__sub">四格小相册（把图片放到 assets/photos/）。</div>
       </div>
 
-      <div class="grid-4 reveal">
-        <a class="photo glass" href="assets/img/grid-1.jpg" target="_blank" rel="noreferrer">
-          < img src="assets/img/grid-1.jpg" alt="grid 1" />
-        </a >
-        <a class="photo glass" href="assets/img/grid-2.jpg" target="_blank" rel="noreferrer">
-          < img src="assets/img/grid-2.jpg" alt="grid 2" />
-        </a >
-        <a class="photo glass" href="assets/img/grid-3.jpg" target="_blank" rel="noreferrer">
-          < img src="assets/img/grid-3.jpg" alt="grid 3" />
-        </a >
-        <a class="photo glass" href="assets/img/grid-4.jpg" target="_blank" rel="noreferrer">
-          < img src="assets/img/grid-4.jpg" alt="grid 4" />
-        </a >
+      <div class="photo4">
+        <figure class="glass photo reveal">< img src="./assets/photos/p1.jpg" alt="photo 1"></figure>
+        <figure class="glass photo reveal">< img src="./assets/photos/p2.jpg" alt="photo 2"></figure>
+        <figure class="glass photo reveal">< img src="./assets/photos/p3.jpg" alt="photo 3"></figure>
+        <figure class="glass photo reveal">< img src="./assets/photos/p4.jpg" alt="photo 4"></figure>
       </div>
     </section>
 
-    <!-- Works：项目卡 -->
+    <!-- Words -->
     <section class="section" id="words">
       <div class="section__head reveal">
-        <h2 class="section__title">Works</h2>
-        <div class="section__sub">两个项目页示例（可继续加）。</div>
+        <h2 class="section__title">Words</h2>
+        <div class="section__sub">一些句子，像呼吸。</div>
       </div>
 
-      <div class="grid-2">
-        <article class="card glass reveal">
-          <div class="pill">Project 01</div>
-          <h3 class="card__title">Pink Glass Portfolio</h3>
-          <p class="muted">毛玻璃 UI + 细腻动效 + 轻语气排版。</p >
-          <div class="card__actions">
-            <a class="btn btn-primary" href="project-1.html">open</a >
-            <a class="btn btn-ghost" href="#hello">note</a >
-          </div>
+      <div class="masonry">
+        <article class="glass card reveal">
+          <h3 class="card__title">一句</h3>
+          <p class="muted">我会把世界装在自己手里。</p >
         </article>
 
-        <article class="card glass reveal">
-          <div class="pill">Project 02</div>
-          <h3 class="card__title">Soft Typewriter Page</h3>
-          <p class="muted">打字机多段切换 + 鼠标光晕 + 滚动显现。</p >
-          <div class="card__actions">
-            <a class="btn btn-primary" href="project-2.html">open</a >
-            <a class="btn btn-ghost" href="#photos">view</a >
-          </div>
+        <article class="glass card reveal">
+          <h3 class="card__title">一段</h3>
+          <p class="muted">
+            我喜欢那些不吵闹的美：轻、软、克制。<br>
+            也喜欢那些能被触摸到的细节：阴影、玻璃、微光、缓慢的过渡。
+          </p >
+        </article>
+
+        <article class="glass card reveal">
+          <h3 class="card__title">一个愿望</h3>
+          <p class="muted">把我喜欢的感觉做成真正可用的作品。</p >
         </article>
       </div>
     </section>
 
-    <!-- Hello：留言 -->
+    <!-- Hello / 留言 -->
     <section class="section" id="hello">
       <div class="section__head reveal">
         <h2 class="section__title">Hello</h2>
-        <div class="section__sub">留一句轻轻的话。</div>
+        <div class="section__sub">写一条给未来的自己。</div>
       </div>
 
-      <form class="card glass reveal" onsubmit="return false;">
-        <label class="label">你的名字</label>
-        <input class="input" type="text" placeholder="匿名也可以" />
+      <div class="glass card reveal">
+        <form id="noteForm" class="note">
+          <input class="input" id="noteName" placeholder="你的名字（可空）" />
+          <textarea class="textarea" id="noteText" placeholder="写点什么…（会保存在你的浏览器里）" rows="4"></textarea>
+          <div class="note__row">
+            <button class="btn btn-primary" type="submit">save</button>
+            <button class="btn btn-ghost" id="clearNoteBtn" type="button">clear</button>
+            <span class="muted" id="noteStatus"></span>
+          </div>
+        </form>
+      </div>
 
-        <label class="label">想说的话</label>
-        <textarea class="textarea" rows="4" placeholder="写一点温柔的…"></textarea>
-
-        <div class="card__actions">
-          <button class="btn btn-primary" type="button" onclick="alert('已收到（演示版）✨')">send</button>
-          <a class="btn btn-ghost" href="#about">back</a >
-        </div>
-
-        <p class="tiny muted">（这是前端展示版，不会真的上传内容）</p >
-      </form>
+      <footer class="footer">
+        <div class="muted">© <span id="year"></span> Vivienne • v5.0</div>
+      </footer>
     </section>
-
-    <footer class="footer reveal">
-      <div class="muted">© <span id="year"></span> Vivienne • my quiet corner of the internet</div>
-    </footer>
   </main>
 
-  <script src="assets/main.js"></script>
+  <!-- 可选音乐（没有文件也不影响） -->
+  <audio id="bgm" src="./assets/bgm.mp3" preload="auto" loop></audio>
+
+  <script src="./assets/app.js"></script>
 </body>
 </html>
