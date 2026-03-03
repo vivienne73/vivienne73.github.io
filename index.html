@@ -3,199 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vivienne</title>
+<title>About Me — Vivienne</title>
 
 <style>
-:root{
---bg1:#fff9fc;
---bg2:#f6fbff;
---pink:rgba(255,207,227,.6);
---blue:rgba(205,228,255,.5);
---ink:rgba(20,20,24,.85);
---muted:rgba(20,20,24,.55);
-}
-
-*{box-sizing:border-box}
 body{
 margin:0;
 font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-background:
-radial-gradient(800px 500px at 20% 20%,var(--pink),transparent 60%),
-radial-gradient(900px 500px at 80% 30%,var(--blue),transparent 60%),
-linear-gradient(180deg,var(--bg1),var(--bg2));
-color:var(--ink);
-overflow-x:hidden;
-}
-
-/* 光晕 */
-.glow{
-position:fixed;
-width:260px;height:260px;
-border-radius:50%;
-pointer-events:none;
-background:radial-gradient(circle,
-rgba(255,207,227,.5),
-rgba(205,228,255,.3),
-transparent 60%);
-filter:blur(18px);
-left:-999px;top:-999px;
-z-index:0;
-}
-
-/* 容器 */
-.wrap{
-width:min(960px,92%);
-margin:0 auto;
-padding:80px 0;
-position:relative;
-z-index:2;
+background:linear-gradient(180deg,#fff9fc,#f6fbff);
+color:#222;
+padding:60px 20px;
 text-align:center;
 }
 
-/* 头像 */
-.avatar{
-width:140px;height:140px;
-margin:0 auto 20px;
-border-radius:50%;
-overflow:hidden;
-border:3px solid rgba(255,255,255,.8);
-box-shadow:0 15px 40px rgba(0,0,0,.08);
-background:linear-gradient(135deg,#ffd6ea,#d9ecff);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:14px;
+.card{
+max-width:600px;
+margin:0 auto;
+background:rgba(255,255,255,.7);
+padding:40px 30px;
+border-radius:24px;
+box-shadow:0 20px 60px rgba(0,0,0,.08);
+}
+
+h1{
+margin-bottom:20px;
+}
+
+p{
+line-height:1.8;
 color:#555;
 }
-.avatar img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
 
-/* 标题 */
-h1{
-margin:10px 0 6px;
-font-size:32px;
-letter-spacing:.02em;
-}
-.sub{
-color:var(--muted);
-font-size:14px;
-margin-bottom:40px;
-}
-
-/* 四格 */
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.photo{
-aspect-ratio:1/1;
-border-radius:20px;
-overflow:hidden;
-background:rgba(255,255,255,.6);
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-transition:transform .2s ease;
-}
-.photo:hover{transform:translateY(-4px)}
-
-.photo img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.tag{
-position:absolute;
-bottom:10px;
-left:10px;
-font-size:12px;
-background:rgba(255,255,255,.7);
-padding:4px 8px;
+.back{
+margin-top:30px;
+display:inline-block;
+padding:10px 20px;
 border-radius:999px;
-color:#444;
-}
-
-.footer{
-margin-top:40px;
-font-size:12px;
-color:var(--muted);
+background:linear-gradient(135deg,#ffd6ea,#d9ecff);
+text-decoration:none;
+color:#333;
+font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="glow" id="glow"></div>
+<div class="card">
+<h1>About Me</h1>
 
-<div class="wrap">
+<p>
+我喜欢艺术的留白，数学的秩序。<br>
+我想把喜欢的感觉做成真实的网页。<br>
+这个空间只是关于我。
+</p >
 
-<div class="avatar">
-< img src="./assets/avatar.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='your photo';">
+<a href=" " class="back">back</a >
 </div>
 
-<h1>Vivienne</h1>
-<div class="sub">soft pink personal space</div>
+</body>
+</html><a href=" ">
+<div class="card">
+< img src="assets/photos/p3.jpg">
+</div>
+</a >
 
-<div class="grid">
-<div class="photo">< img src="./assets/p1.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 1';"></div>
-<div class="photo">< img src="./assets/p2.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 2';"></div>
-<div class="photo">< img src="./assets/p3.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 3';"></div>
-<div class="photo">< img src="./assets/p4.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 4';"></div>
+<a href="about4.html">
+<div class="card">
+< img src="assets/photos/p4.jpg">
+</div>
+</a >
+
 </div>
 
-<div class="footer">© Vivienne</div></div>
+<div class="footer">
+© 2026 Vivienne
+</div>
 
-<script>
-const glow=document.getElementById("glow");
-
-document.addEventListener("mousemove",e=>{
-glow.style.left=e.clientX-130+"px";
-glow.style.top=e.clientY-130+"px";
-});
-
-let sparkCount=0;
-const MAX=10;
-
-document.addEventListener("click",e=>{
-if(e.target.closest(".photo")||e.target.closest(".avatar")) return;
-if(sparkCount>=MAX) return;
-
-sparkCount++;
-
-const s=document.createElement("div");
-s.style.position="fixed";
-s.style.width="16px";
-s.style.height="16px";
-s.style.borderRadius="50%";
-s.style.background="rgba(255,207,227,.4)";
-s.style.left=e.clientX+"px";
-s.style.top=e.clientY+"px";
-s.style.transform="translate(-50%,-50%)";
-s.style.pointerEvents="none";
-s.style.animation="fade 1.2s forwards";
-document.body.appendChild(s);
-
-setTimeout(()=>{
-s.remove();
-sparkCount--;
-},1200);
-});
-
-const style=document.createElement("style");
-style.innerHTML=`
-@keyframes fade{
-0%{transform:translate(-50%,-50%) scale(1);opacity:.8}
-100%{transform:translate(-50%,-50%) scale(10);opacity:0}
-}`;
-document.head.appendChild(style);
-</script>
+</div>
 
 </body>
 </html>
