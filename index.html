@@ -1,99 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vivienne</title>
-
-<style>
-:root{
---bg1:#faf7ff;
---bg2:#fff9fb;
---ink:#1f1f26;
---glass:rgba(255,255,255,.6);
---shadow:0 20px 60px rgba(31,31,38,.08);
-}
-
-*{box-sizing:border-box}
-body{
-margin:0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:
-radial-gradient(60vw 40vw at 20% 20%, rgba(255,210,230,.35), transparent 60%),
-radial-gradient(55vw 45vw at 80% 30%, rgba(210,220,255,.35), transparent 60%),
-linear-gradient(180deg,var(--bg1),var(--bg2));
-font-family: ui-serif, Georgia, "Songti SC", serif;
-color:var(--ink);
-}/* ✅ 允许点击穿透：任何背景/光晕/装饰层都别挡按钮 */
-.cursor-glow,
-.bg,
-.overlay,
-.decor,
-.no-click {
-  pointer-events: none !important;
-}
-
-/* ✅ 强行让按钮在最上层 */
-.card { position: relative; z-index: 2; }
-.enter { position: relative; z-index: 3; cursor: pointer; }
-
-.card{
-padding:70px 80px;
-border-radius:30px;
-background:var(--glass);
-backdrop-filter:blur(20px);
--webkit-backdrop-filter:blur(20px);
-box-shadow:var(--shadow);
-text-align:center;
-}
-
-h1{
-font-size:56px;
-margin:0 0 18px;
-font-weight:600;
-letter-spacing:.02em;
-}.sub{
-font-size:14px;
-color:rgba(31,31,38,.6);
-letter-spacing:.18em;
-text-transform:uppercase;
-margin-bottom:40px;
-}
-
-.enter{
-display:inline-block;
-padding:12px 26px;
-border-radius:999px;
-text-decoration:none;
-color:rgba(31,31,38,.8);
-border:1px solid rgba(31,31,38,.12);
-background:rgba(255,255,255,.5);
-transition:all .2s ease;
-}
-
-.enter:hover{
-transform:translateY(-2px);
-background:white;
-}
-
-footer{
-margin-top:30px;
-font-size:12px;
-color:rgba(31,31,38,.4);
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Vivienne</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-<div class="card">
-<h1>Vivienne</h1>
-<div class="sub">soft pink personal space</div>
-<a class="enter" href="./about1.html">enter</a >
-<footer>© 2026</footer>
+<body>
+<div class="halo"></div>
+
+<div class="container">
+  <div class="card">
+
+    <!-- 头像 -->
+    <div class="avatar-box">
+      < img src="assets/avatar.jpg" class="avatar">
+    </div>
+
+    <!-- 标题 -->
+    <h1 class="title">Vivienne</h1>
+    <p class="typing" id="typing"></p >
+
+    <!-- 四格 -->
+    <div class="grid">
+
+      <a href=" " class="box">
+        < img src="assets/photos/p1.jpg">
+        <span>Story</span>
+      </a >
+
+      <a href="mood.html" class="box">
+        < img src="assets/photos/p2.jpg">
+        <span>Mood</span>
+      </a >
+
+      <div class="box">
+        < img src="assets/photos/p3.jpg">
+        <span>Art</span>
+      </div>
+
+      <div class="box">
+        < img src="assets/photos/p4.jpg">
+        <span>Life</span>
+      </div>
+
+    </div>
+
+  </div>
 </div>
 
+<script src="app.js"></script>
 </body>
 </html>
