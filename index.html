@@ -1,483 +1,214 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Vivienne — a soft interactive field</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vivienne — Soft Room</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- 可删：字体加载失败也不影响页面 -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg1:#fff9fc;
+--bg2:#f7fbff;
+--ink:rgba(20,20,24,.85);
+--muted:rgba(20,20,24,.55);
+--pink:rgba(255,207,227,.6);
+--blue:rgba(205,228,255,.5);
+}
 
-  <style>
-    :root{
-      /* 更淡一点 */
-      --bg1: rgba(255, 245, 250, 1);
-      --bg2: rgba(244, 250, 255, 1);
-      --ink: rgba(20, 20, 24, .88);
-      --muted: rgba(20, 20, 24, .55);
-      --line: rgba(20, 20, 24, .10);
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+color:var(--ink);
+background:
+radial-gradient(900px 500px at 20% 20%,var(--pink),transparent 60%),
+radial-gradient(900px 500px at 80% 30%,var(--blue),transparent 60%),
+linear-gradient(180deg,var(--bg1),var(--bg2));
+overflow-x:hidden;
+}
 
-      --glass: rgba(255,255,255,.46);
-      --glass2: rgba(255,255,255,.30);
-      --shadow: 0 18px 60px rgba(20, 20, 30, .10);
+.glow{
+position:fixed;
+width:260px;
+height:260px;
+border-radius:50%;
+pointer-events:none;
+background:radial-gradient(circle,
+rgba(255,207,227,.5),
+rgba(205,228,255,.3),
+transparent 60%);
+filter:blur(18px);
+left:-999px;
+top:-999px;
+z-index:0;
+}
 
-      --pink: rgba(255, 205, 225, .45);
-      --blue: rgba(200, 225, 255, .40);
+.wrap{
+position:relative;
+z-index:2;
+width:min(960px,92%);
+margin:0 auto;
+padding:80px 0;
+}
 
-      --r: 22px;
-    }
+.entry{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,255,255,.2);
+backdrop-filter:blur(10px);
+z-index:10;
+}
 
-    *{ box-sizing: border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      color: var(--ink);
-      font-family: Inter, system-ui, -apple-system, "PingFang SC","Microsoft YaHei", sans-serif;
-      overflow-x:hidden;
-      background:
-        radial-gradient(900px 420px at 20% 20%, var(--pink), transparent 60%),
-        radial-gradient(900px 420px at 80% 30%, var(--blue), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-    }
+.entryCard{
+background:rgba(255,255,255,.55);
+padding:40px 30px;
+border-radius:24px;
+text-align:center;
+}
 
-    /* 背景轻雾 */
-    .fog{
-      position: fixed; inset: -20px;
-      pointer-events:none;
-      background:
-        radial-gradient(500px 300px at 30% 70%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(600px 360px at 70% 20%, rgba(255,255,255,.25), transparent 60%);
-      filter: blur(10px);
-      opacity:.65;
-    }
+h1{
+font-size:56px;
+margin:10px 0;
+}
 
-    /* 顶部极简导航 */
-    .top{
-      position: fixed; left:0; right:0; top:0;
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 14px 18px;
-      z-index: 20;
-      pointer-events:none; /* 不挡点击 */
-    }
-    .top .brand{
-      font-family: "Playfair Display", serif;
-      letter-spacing: .5px;
-      opacity:.45;
-    }
-    .top .nav{
-      display:flex; gap:14px;
-      font-size: 13px;
-      opacity:.55;
-      pointer-events:auto;
-    }
-    .top a{
-      color: var(--ink);
-      text-decoration:none;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-    }
-    .top a:hover{
-      border-color: var(--line);
-      background: rgba(255,255,255,.22);
-    }
+button{
+border:none;
+background:linear-gradient(135deg,#ffd6ea,#d9ecff);
+padding:10px 20px;
+border-radius:999px;
+cursor:pointer;
+font-size:14px;
+}
 
-    /* 入口卡片 */
-    .stage{
-      min-height: 100vh;
-      display:grid;
-      place-items:center;
-      padding: 86px 16px 40px;
-    }
-    .card{
-      width: min(680px, 92vw);
-      border-radius: calc(var(--r) + 8px);
-      background: linear-gradient(180deg, var(--glass), var(--glass2));
-      border: 1px solid rgba(255,255,255,.55);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 34px 26px;
-      text-align:center;
-      position: relative;
-      overflow:hidden;
-    }
-    .kicker{
-      letter-spacing:.28em;
-      font-size: 12px;
-      color: var(--muted);
-      opacity:.75;
-    }
-    h1{
-      margin: 10px 0 8px;
-      font-family: "Playfair Display", serif;
-      font-weight: 600;
-      font-size: clamp(44px, 7vw, 76px);
-      line-height: 1;
-    }
-    .sub{
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 18px;
-    }
-    .btns{
-      display:flex;
-      gap: 12px;
-      justify-content:center;
-      flex-wrap:wrap;
-      margin-top: 14px;
-    }
-    button{
-      appearance:none;
-      border: 1px solid rgba(20,20,24,.10);
-      background: rgba(255,255,255,.55);
-      color: var(--ink);
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: 14px;
-      cursor:pointer;
-      transition: transform .15s ease, background .15s ease, border-color .15s ease;
-    }
-    button:hover{ transform: translateY(-1px); border-color: rgba(20,20,24,.14); }
-    button:active{ transform: translateY(0px) scale(.99); }
+.section{
+background:rgba(255,255,255,.5);
+padding:20px;
+border-radius:22px;
+margin-top:20px;
+}
 
-    .hint{
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--muted);
-      opacity:.8;
-    }
+.grid4{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+}
 
-    /* 主内容 */
-    .main{
-      display:none;
-      padding: 20px 16px 90px;
-      max-width: 980px;
-      margin: 0 auto;
-    }
-    .section{
-      margin-top: 28px;
-      border-radius: calc(var(--r) + 10px);
-      background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(255,255,255,.22));
-      border: 1px solid rgba(255,255,255,.50);
-      box-shadow: 0 14px 50px rgba(20,20,30,.08);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      padding: 22px 18px;
-    }
-    .section h2{
-      font-family:"Playfair Display", serif;
-      font-size: 44px;
-      margin: 0 0 6px;
-    }
-    .section p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.7;
-    }
+.photo{
+aspect-ratio:1/1;
+background:rgba(255,255,255,.5);
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:14px;
+cursor:pointer;
+}
 
-    /* 互动卡片：简洁但有艺术感 */
-    .grid{
-      display:grid;
-      gap: 14px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      margin-top: 16px;
-    }
-    @media (max-width: 860px){
-      .grid{ grid-template-columns: 1fr; }
-      .section h2{ font-size: 38px; }
-    }
-
-    .flip{
-      position:relative;
-      border-radius: var(--r);
-      border: 1px solid rgba(20,20,24,.10);
-      background: rgba(255,255,255,.52);
-      overflow:hidden;
-      min-height: 150px;
-      cursor:pointer;
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-      transform-style: preserve-3d;
-    }
-    .flip:hover{
-      transform: translateY(-2px);
-      border-color: rgba(20,20,24,.14);
-      background: rgba(255,255,255,.60);
-    }
-    .face{
-      position:absolute; inset:0;
-      padding: 16px 16px 14px;
-      backface-visibility: hidden;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-    .title{
-      font-weight: 500;
-      letter-spacing:.02em;
-    }
-    .meta{
-      font-size: 13px;
-      color: var(--muted);
-      opacity:.9;
-      line-height:1.6;
-    }
-    .back{
-      transform: rotateY(180deg);
-    }
-    .flip.is-on{
-      transform: rotateY(180deg);
-    }
-
-    /* 雾光圆圈 */
-    .pulse{
-      position: fixed;
-      width: 22px; height: 22px;
-      border-radius: 999px;
-      pointer-events:none;
-      transform: translate(-50%, -50%);
-      filter: blur(0px);
-      opacity: .9;
-      animation: bloom 1.25s ease-out forwards;
-      z-index: 50;
-      mix-blend-mode: multiply;
-    }
-    @keyframes bloom{
-      0%{ transform: translate(-50%, -50%) scale(1); opacity:.85; filter: blur(0px); }
-      100%{ transform: translate(-50%, -50%) scale(16); opacity:0; filter: blur(10px); }
-    }
-
-    /* 小脚注 */
-    .footer{
-      margin-top: 18px;
-      text-align:center;
-      color: var(--muted);
-      font-size: 12px;
-      opacity:.75;
-    }
-
-    /* 让“进入”更明显：进入后自动滚动到主区 */
-    .fade-out{
-      animation: fadeOut .35s ease forwards;
-    }
-    @keyframes fadeOut{
-      to{ opacity:0; transform: translateY(6px); }
-    }
-  </style>
+.noteBtn{
+margin-top:10px;
+background:#fff;
+border-radius:999px;
+padding:8px 16px;
+cursor:pointer;
+}
+</style>
 </head>
 
 <body>
-  <div class="fog"></div>
 
-  <div class="top">
-    <div class="brand">V</div>
-    <nav class="nav">
-      <a href=" ">about</a >
-      <a href="#cards">cards</a >
-      <a href="#field">field</a >
-    </nav>
-  </div>
+<div class="glow" id="glow"></div>
 
-  <!-- 入口 -->
-  <main class="stage" id="home">
-    <section class="card" id="entryCard" aria-label="entry">
-      <div class="kicker">WELCOME TO MY ROOM</div>
-      <h1>Vivienne</h1>
-      <div class="sub">a soft interactive field — only about me</div>
+<div class="entry" id="entry">
+<div class="entryCard">
+<div>WELCOME TO MY ROOM</div>
+<h1>Vivienne</h1>
+<p>soft pink personal space</p >
+<button onclick="enterRoom()">enter</button>
+</div>
+</div>
 
-      <div class="btns">
-        <button id="enterBtn">enter</button>
-        <button id="musicBtn" aria-pressed="false">music: off</button>
-      </div>
+<div class="wrap">
+<div class="section">
+<h2>About</h2>
+<p>这是我的粉白韩系个人空间。</p >
+</div>
 
-      <div class="hint">（点击 enter 立即进入；进入后点击空白处，会出现雾光消散）</div>
-    </section>
-  </main>
+<div class="section">
+<h2>Photos</h2>
+<div class="grid4">
+<div class="photo">photo 1</div>
+<div class="photo">photo 2</div>
+<div class="photo">photo 3</div>
+<div class="photo">photo 4</div>
+</div>
+</div>
 
-  <!-- 主内容（极简 + 互动卡片） -->
-  <section class="main" id="main">
-    <section class="section" id="about">
-      <h2>About</h2>
-      <p>不是简历，只是我。艺术、数学、互动——我想把它们放在同一个安静空间里。</p >
-    </section>
+<div class="section">
+<h2>Notes</h2>
+<p id="noteText">我喜欢安静的粉色空间。</p >
+<div class="noteBtn" onclick="nextNote()">another note</div>
+</div></div>
 
-    <section class="section" id="cards">
-      <h2>Cards</h2>
-      <p>点击卡片翻面。保持简洁，但每一张都有一点点“机关”。</p >
+<script>
+let entered=false;
 
-      <div class="grid" role="list" aria-label="interactive cards">
-        <div class="flip" role="listitem" tabindex="0" aria-label="card 1">
-          <div class="face front">
-            <div class="title">Art — Soft Rules</div>
-            <div class="meta">我喜欢留白。<br>把“说太满”的部分，交给感觉。</div>
-          </div>
-          <div class="face back">
-            <div class="title">Hidden Note</div>
-            <div class="meta">把你最喜欢的一句诗，写在纸上。<br>然后不解释。</div>
-          </div>
-        </div>
+function enterRoom(){
+document.getElementById("entry").style.display="none";
+entered=true;
+}
 
-        <div class="flip" role="listitem" tabindex="0" aria-label="card 2">
-          <div class="face front">
-            <div class="title">Math — Tiny Wonder</div>
-            <div class="meta">我喜欢确定性。<br>也喜欢它带来的自由。</div>
-          </div>
-          <div class="face back">
-            <div class="title">Mini Puzzle</div>
-            <div class="meta">试着用最少的字描述“∞”。<br>（你可以写进 README 里）</div>
-          </div>
-        </div>
+const glow=document.getElementById("glow");
 
-        <div class="flip" role="listitem" tabindex="0" aria-label="card 3">
-          <div class="face front">
-            <div class="title">Interaction — Gentle Game</div>
-            <div class="meta">进入后点击空白处。<br>你会得到一朵会消散的雾光。</div>
-          </div>
-          <div class="face back">
-            <div class="title">Rule</div>
-            <div class="meta">越轻越好。<br>越少越准。</div>
-          </div>
-        </div>
-      </div>
+document.addEventListener("mousemove",e=>{
+glow.style.left=e.clientX-130+"px";
+glow.style.top=e.clientY-130+"px";
+});
 
-      <div class="footer">tip：电脑也可以按空格键触发一次雾光（很轻）。</div>
-    </section>
+const notes=[
+"我喜欢安静的粉色空间。",
+"留白不是空，是呼吸。",
+"艺术是温柔的秩序。",
+"今天也要轻一点。",
+"不解释，只呈现。"
+];
 
-    <section class="section" id="field">
-      <h2>Field</h2>
-      <p>这是一个“互动场”。它不需要很多内容，但需要你每一次点击都像在触摸空气。</p >
-    </section>
+function nextNote(){
+const pick=notes[Math.floor(Math.random()*notes.length)];
+document.getElementById("noteText").innerText=pick;
+}
 
-    <div class="footer">Vivienne · v4.2</div>
-  </section>
+document.addEventListener("click",e=>{
+if(!entered) return;
+if(e.target.closest("button")||e.target.closest(".noteBtn")) return;
 
-  <!-- 音频（可选：没有也不报错） -->
-  <audio id="bgm" preload="none" loop>
-    <!-- 你以后可以放：assets/bgm.mp3 -->
-    <!-- <source src="assets/bgm.mp3" type="audio/mpeg"> -->
-  </audio>
+const spark=document.createElement("div");
+spark.style.position="fixed";
+spark.style.width="18px";
+spark.style.height="18px";
+spark.style.borderRadius="50%";
+spark.style.background="rgba(255,207,227,.4)";
+spark.style.left=e.clientX+"px";
+spark.style.top=e.clientY+"px";
+spark.style.transform="translate(-50%,-50%)";
+spark.style.animation="fade 1.2s forwards";
+spark.style.pointerEvents="none";
+document.body.appendChild(spark);
 
-  <script>
-    const enterBtn = document.getElementById('enterBtn');
-    const musicBtn = document.getElementById('musicBtn');
-    const entryCard = document.getElementById('entryCard');
-    const main = document.getElementById('main');
-    const bgm = document.getElementById('bgm');
+setTimeout(()=>spark.remove(),1200);
+});
 
-    let entered = false;
-    let musicOn = false;
+const style=document.createElement("style");
+style.innerHTML=`
+@keyframes fade{
+0%{transform:translate(-50%,-50%) scale(1);opacity:.8}
+100%{transform:translate(-50%,-50%) scale(12);opacity:0}
+}
+`;
+document.head.appendChild(style);
+</script>
 
-    function softScrollTo(hash){
-      const el = document.querySelector(hash);
-      if(!el) return;
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // 进入：立刻显示主内容
-    enterBtn.addEventListener('click', async () => {
-      if (entered) return;
-      entered = true;
-
-      entryCard.classList.add('fade-out');
-      setTimeout(() => {
-        document.querySelector('.stage').style.display = 'none';
-        main.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // 默认落到 about
-        setTimeout(()=>softScrollTo('#about'), 180);
-      }, 360);
-
-      // 如果用户已经开了音乐，则尝试播放（浏览器策略要求用户交互后才可播放）
-      if (musicOn) {
-        try { await bgm.play(); } catch(e) {}
-      }
-    });
-
-    // 音乐开关（你以后放了 assets/bgm.mp3 才会有声音；没放也不报错）
-    musicBtn.addEventListener('click', async () => {
-      musicOn = !musicOn;
-      musicBtn.setAttribute('aria-pressed', String(musicOn));
-      musicBtn.textContent = 'music: ' + (musicOn ? 'on' : 'off');
-
-      if (!bgm.querySelector('source')) {
-        // 没有音乐文件就只切换按钮文字，不报错
-        return;
-      }
-
-      try{
-        if (musicOn) await bgm.play();
-        else bgm.pause();
-      }catch(e){}
-    });
-
-    // 卡片翻面：点击 / 回车
-    function toggleFlip(el){
-      el.classList.toggle('is-on');
-    }
-    document.querySelectorAll('.flip').forEach(card => {
-      card.addEventListener('click', () => toggleFlip(card));
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggleFlip(card);
-        }
-      });
-    });
-
-    // 雾光：进入后，点击空白处生成
-    function spawnPulse(x, y){
-      const p = document.createElement('div');
-      p.className = 'pulse';
-
-      // 更淡一点
-      const pink = 'rgba(255, 205, 225, .35)';
-      const blue = 'rgba(200, 225, 255, .32)';
-      p.style.background = (Math.random() > 0.5) ? pink : blue;
-
-      p.style.left = x + 'px';
-      p.style.top = y + 'px';
-      document.body.appendChild(p);
-      setTimeout(() => p.remove(), 1400);
-    }
-
-    // 只在进入后响应点击（避免入口误触）
-    document.addEventListener('click', (e) => {
-      if (!entered) return;
-
-      // 点在按钮/卡片上，不生成（保持干净）
-      const ignore = e.target.closest('button, a, .flip');
-      if (ignore) return;
-
-      spawnPulse(e.clientX, e.clientY);
-    }, { passive: true });
-
-    // 空格键：生成一次（很轻）
-    document.addEventListener('keydown', (e) => {
-      if (!entered) return;
-      if (e.key === ' ') {
-        e.preventDefault();
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight * 0.45;
-        spawnPulse(x, y);
-      }
-    });
-
-    // 导航：平滑滚动
-    document.querySelectorAll('.nav a').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        const href = a.getAttribute('href');
-        if (!entered) {
-          // 还没进入：先进入，再滚
-          enterBtn.click();
-          setTimeout(()=>softScrollTo(href), 550);
-        } else {
-          softScrollTo(href);
-        }
-      });
-    });
-  </script>
 </body>
 </html>
