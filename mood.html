@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mood</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+<div class="card">
 
+<h1>Mood Log</h1>
+
+<textarea id="mood" style="width:100%;height:100px;"></textarea>
+<button onclick="save()">Save</button>
+
+<ul id="list"></ul>
+
+<a href=" ">← Back</a >
+
+</div>
+</div>
+
+<script>
+function save(){
+  let text=document.getElementById("mood").value;
+  let li=document.createElement("li");
+  li.innerText=text;
+  document.getElementById("list").appendChild(li);
+}
+</script>
+
+</body>
+</html>
