@@ -4,44 +4,84 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vivienne</title>
+
 <style>
+:root{
+--bg1:#faf7ff;
+--bg2:#fff9fb;
+--ink:#1f1f26;
+--glass:rgba(255,255,255,.6);
+--shadow:0 20px 60px rgba(31,31,38,.08);
+}
+
+*{box-sizing:border-box}
 body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#faf7ff,#fff9fb);
-  font-family:serif;
+margin:0;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+background:
+radial-gradient(60vw 40vw at 20% 20%, rgba(255,210,230,.35), transparent 60%),
+radial-gradient(55vw 45vw at 80% 30%, rgba(210,220,255,.35), transparent 60%),
+linear-gradient(180deg,var(--bg1),var(--bg2));
+font-family: ui-serif, Georgia, "Songti SC", serif;
+color:var(--ink);
 }
+
 .card{
-  padding:60px;
-  border-radius:30px;
-  background:rgba(255,255,255,0.6);
-  backdrop-filter:blur(20px);
-  text-align:center;
+padding:70px 80px;
+border-radius:30px;
+background:var(--glass);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+box-shadow:var(--shadow);
+text-align:center;
 }
+
 h1{
-  font-size:48px;
-  margin:0 0 20px;
+font-size:56px;
+margin:0 0 18px;
+font-weight:600;
+letter-spacing:.02em;
+}.sub{
+font-size:14px;
+color:rgba(31,31,38,.6);
+letter-spacing:.18em;
+text-transform:uppercase;
+margin-bottom:40px;
 }
-a{
-  text-decoration:none;
-  color:#444;
-  padding:10px 20px;
-  border-radius:999px;
-  border:1px solid rgba(0,0,0,0.1);
+
+.enter{
+display:inline-block;
+padding:12px 26px;
+border-radius:999px;
+text-decoration:none;
+color:rgba(31,31,38,.8);
+border:1px solid rgba(31,31,38,.12);
+background:rgba(255,255,255,.5);
+transition:all .2s ease;
 }
-a:hover{
-  background:white;
+
+.enter:hover{
+transform:translateY(-2px);
+background:white;
+}
+
+footer{
+margin-top:30px;
+font-size:12px;
+color:rgba(31,31,38,.4);
 }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>Vivienne</h1>
-  <a href=" ">enter</a >
+<h1>Vivienne</h1>
+<div class="sub">soft pink personal space</div>
+<a class="enter" href=" ">enter</a >
+<footer>© 2026</footer>
 </div>
 
 </body>
