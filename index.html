@@ -3,34 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vivienne — Soft Room</title>
+<title>Vivienne</title>
 
 <style>
 :root{
 --bg1:#fff9fc;
---bg2:#f7fbff;
---ink:rgba(20,20,24,.85);
---muted:rgba(20,20,24,.55);
+--bg2:#f6fbff;
 --pink:rgba(255,207,227,.6);
 --blue:rgba(205,228,255,.5);
+--ink:rgba(20,20,24,.85);
+--muted:rgba(20,20,24,.55);
 }
 
 *{box-sizing:border-box}
 body{
 margin:0;
-font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
 background:
-radial-gradient(900px 500px at 20% 20%,var(--pink),transparent 60%),
+radial-gradient(800px 500px at 20% 20%,var(--pink),transparent 60%),
 radial-gradient(900px 500px at 80% 30%,var(--blue),transparent 60%),
 linear-gradient(180deg,var(--bg1),var(--bg2));
+color:var(--ink);
 overflow-x:hidden;
 }
 
+/* 光晕 */
 .glow{
 position:fixed;
-width:260px;
-height:260px;
+width:260px;height:260px;
 border-radius:50%;
 pointer-events:none;
 background:radial-gradient(circle,
@@ -38,81 +38,94 @@ rgba(255,207,227,.5),
 rgba(205,228,255,.3),
 transparent 60%);
 filter:blur(18px);
-left:-999px;
-top:-999px;
+left:-999px;top:-999px;
 z-index:0;
 }
 
+/* 容器 */
 .wrap{
-position:relative;
-z-index:2;
 width:min(960px,92%);
 margin:0 auto;
 padding:80px 0;
-}
-
-.entry{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,255,255,.2);
-backdrop-filter:blur(10px);
-z-index:10;
-}
-
-.entryCard{
-background:rgba(255,255,255,.55);
-padding:40px 30px;
-border-radius:24px;
+position:relative;
+z-index:2;
 text-align:center;
 }
 
-h1{
-font-size:56px;
-margin:10px 0;
-}
-
-button{
-border:none;
+/* 头像 */
+.avatar{
+width:140px;height:140px;
+margin:0 auto 20px;
+border-radius:50%;
+overflow:hidden;
+border:3px solid rgba(255,255,255,.8);
+box-shadow:0 15px 40px rgba(0,0,0,.08);
 background:linear-gradient(135deg,#ffd6ea,#d9ecff);
-padding:10px 20px;
-border-radius:999px;
-cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
 font-size:14px;
+color:#555;
+}
+.avatar img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.section{
-background:rgba(255,255,255,.5);
-padding:20px;
-border-radius:22px;
-margin-top:20px;
+/* 标题 */
+h1{
+margin:10px 0 6px;
+font-size:32px;
+letter-spacing:.02em;
+}
+.sub{
+color:var(--muted);
+font-size:14px;
+margin-bottom:40px;
 }
 
-.grid4{
+/* 四格 */
+.grid{
 display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 
 .photo{
 aspect-ratio:1/1;
-background:rgba(255,255,255,.5);
-border-radius:16px;
+border-radius:20px;
+overflow:hidden;
+background:rgba(255,255,255,.6);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:14px;
 cursor:pointer;
+transition:transform .2s ease;
+}
+.photo:hover{transform:translateY(-4px)}
+
+.photo img{
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-.noteBtn{
-margin-top:10px;
-background:#fff;
+.tag{
+position:absolute;
+bottom:10px;
+left:10px;
+font-size:12px;
+background:rgba(255,255,255,.7);
+padding:4px 8px;
 border-radius:999px;
-padding:8px 16px;
-cursor:pointer;
+color:#444;
+}
+
+.footer{
+margin-top:40px;
+font-size:12px;
+color:var(--muted);
 }
 </style>
 </head>
@@ -121,45 +134,25 @@ cursor:pointer;
 
 <div class="glow" id="glow"></div>
 
-<div class="entry" id="entry">
-<div class="entryCard">
-<div>WELCOME TO MY ROOM</div>
-<h1>Vivienne</h1>
-<p>soft pink personal space</p >
-<button onclick="enterRoom()">enter</button>
-</div>
-</div>
-
 <div class="wrap">
-<div class="section">
-<h2>About</h2>
-<p>这是我的粉白韩系个人空间。</p >
+
+<div class="avatar">
+< img src="./assets/avatar.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='your photo';">
 </div>
 
-<div class="section">
-<h2>Photos</h2>
-<div class="grid4">
-<div class="photo">photo 1</div>
-<div class="photo">photo 2</div>
-<div class="photo">photo 3</div>
-<div class="photo">photo 4</div>
-</div>
+<h1>Vivienne</h1>
+<div class="sub">soft pink personal space</div>
+
+<div class="grid">
+<div class="photo">< img src="./assets/p1.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 1';"></div>
+<div class="photo">< img src="./assets/p2.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 2';"></div>
+<div class="photo">< img src="./assets/p3.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 3';"></div>
+<div class="photo">< img src="./assets/p4.jpg" onerror="this.style.display='none';this.parentNode.innerHTML='photo 4';"></div>
 </div>
 
-<div class="section">
-<h2>Notes</h2>
-<p id="noteText">我喜欢安静的粉色空间。</p >
-<div class="noteBtn" onclick="nextNote()">another note</div>
-</div></div>
+<div class="footer">© Vivienne</div></div>
 
 <script>
-let entered=false;
-
-function enterRoom(){
-document.getElementById("entry").style.display="none";
-entered=true;
-}
-
 const glow=document.getElementById("glow");
 
 document.addEventListener("mousemove",e=>{
@@ -167,46 +160,40 @@ glow.style.left=e.clientX-130+"px";
 glow.style.top=e.clientY-130+"px";
 });
 
-const notes=[
-"我喜欢安静的粉色空间。",
-"留白不是空，是呼吸。",
-"艺术是温柔的秩序。",
-"今天也要轻一点。",
-"不解释，只呈现。"
-];
-
-function nextNote(){
-const pick=notes[Math.floor(Math.random()*notes.length)];
-document.getElementById("noteText").innerText=pick;
-}
+let sparkCount=0;
+const MAX=10;
 
 document.addEventListener("click",e=>{
-if(!entered) return;
-if(e.target.closest("button")||e.target.closest(".noteBtn")) return;
+if(e.target.closest(".photo")||e.target.closest(".avatar")) return;
+if(sparkCount>=MAX) return;
 
-const spark=document.createElement("div");
-spark.style.position="fixed";
-spark.style.width="18px";
-spark.style.height="18px";
-spark.style.borderRadius="50%";
-spark.style.background="rgba(255,207,227,.4)";
-spark.style.left=e.clientX+"px";
-spark.style.top=e.clientY+"px";
-spark.style.transform="translate(-50%,-50%)";
-spark.style.animation="fade 1.2s forwards";
-spark.style.pointerEvents="none";
-document.body.appendChild(spark);
+sparkCount++;
 
-setTimeout(()=>spark.remove(),1200);
+const s=document.createElement("div");
+s.style.position="fixed";
+s.style.width="16px";
+s.style.height="16px";
+s.style.borderRadius="50%";
+s.style.background="rgba(255,207,227,.4)";
+s.style.left=e.clientX+"px";
+s.style.top=e.clientY+"px";
+s.style.transform="translate(-50%,-50%)";
+s.style.pointerEvents="none";
+s.style.animation="fade 1.2s forwards";
+document.body.appendChild(s);
+
+setTimeout(()=>{
+s.remove();
+sparkCount--;
+},1200);
 });
 
 const style=document.createElement("style");
 style.innerHTML=`
 @keyframes fade{
 0%{transform:translate(-50%,-50%) scale(1);opacity:.8}
-100%{transform:translate(-50%,-50%) scale(12);opacity:0}
-}
-`;
+100%{transform:translate(-50%,-50%) scale(10);opacity:0}
+}`;
 document.head.appendChild(style);
 </script>
 
