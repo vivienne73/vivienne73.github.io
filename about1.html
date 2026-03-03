@@ -2,22 +2,24 @@
 <html lang="zh">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vivienne</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About • Vivienne</title>
 
 <style>
 :root{
---bg1:#faf7ff;
+--bg1:#fbf7ff;
 --bg2:#fff9fb;
 --ink:#1f1f26;
---glass:rgba(255,255,255,.6);
---shadow:0 20px 60px rgba(31,31,38,.08);
+--muted:rgba(31,31,38,.6);
+--glass:rgba(255,255,255,.55);
+--line:rgba(31,31,38,.08);
+--shadow:0 18px 50px rgba(31,31,38,.08);
 }
 
 *{box-sizing:border-box}
 body{
 margin:0;
-height:100vh;
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -25,63 +27,130 @@ background:
 radial-gradient(60vw 40vw at 20% 20%, rgba(255,210,230,.35), transparent 60%),
 radial-gradient(55vw 45vw at 80% 30%, rgba(210,220,255,.35), transparent 60%),
 linear-gradient(180deg,var(--bg1),var(--bg2));
-font-family: ui-serif, Georgia, "Songti SC", serif;
+font-family: ui-sans-serif, system-ui, -apple-system, "PingFang SC","Microsoft YaHei";
 color:var(--ink);
+padding:40px 20px;
 }
 
 .card{
-padding:70px 80px;
+width:min(900px,95vw);
+padding:40px;
 border-radius:30px;
 background:var(--glass);
 backdrop-filter:blur(20px);
 -webkit-backdrop-filter:blur(20px);
 box-shadow:var(--shadow);
-text-align:center;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+font-size:12px;
+letter-spacing:.2em;
+text-transform:uppercase;
+color:var(--muted);
+margin-bottom:10px;
 }
 
 h1{
-font-size:56px;
-margin:0 0 18px;
-font-weight:600;
-letter-spacing:.02em;
-}.sub{
-font-size:14px;
-color:rgba(31,31,38,.6);
-letter-spacing:.18em;
-text-transform:uppercase;
-margin-bottom:40px;
+font-family:Georgia, serif;
+font-size:42px;
+margin:10px 0 30px;
+}.grid{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:30px;
 }
 
-.enter{
+.text{
+line-height:1.9;
+font-size:15px;
+color:rgba(31,31,38,.75);
+}
+
+.photos{
+position:relative;
+}
+
+.pol{
+width:190px;
+position:absolute;
+border-radius:18px;
+padding:10px;
+background:rgba(255,255,255,.6);
+box-shadow:0 15px 35px rgba(31,31,38,.1);
+transition:transform .2s ease;
+}
+
+.pol img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:14px;
+}
+
+.pol.one{
+top:10px;
+left:0;
+transform:rotate(-6deg);
+}
+
+.pol.two{
+top:120px;
+right:0;
+transform:rotate(6deg);
+}
+
+.pol:hover{
+transform:scale(1.05);
+}
+
+.back{
 display:inline-block;
-padding:12px 26px;
-border-radius:999px;
+margin-top:40px;
 text-decoration:none;
+font-size:13px;
 color:rgba(31,31,38,.8);
-border:1px solid rgba(31,31,38,.12);
-background:rgba(255,255,255,.5);
-transition:all .2s ease;
+border:1px solid rgba(31,31,38,.1);
+padding:10px 20px;
+border-radius:999px;
 }
 
-.enter:hover{
-transform:translateY(-2px);
-background:white;
-}
-
-footer{
-margin-top:30px;
-font-size:12px;
-color:rgba(31,31,38,.4);
+@media(max-width:800px){
+.grid{grid-template-columns:1fr}
+.photos{height:300px}
 }
 </style>
 </head>
 <body>
 
 <div class="card">
-<h1>Vivienne</h1>
-<div class="sub">soft pink personal space</div>
-<a class="enter" href=" ">enter</a >
-<footer>© 2026</footer>
+<div class="top">
+<span>About</span>
+<span>Vivienne</span>
+</div>
+
+<h1>About Me</h1>
+
+<div class="grid">
+<div class="text">
+<p>我喜欢艺术的留白，也喜欢数学的秩序。</p >
+<p>我把一些感受藏进网页里，像把光折成更柔的形状。</p >
+<p>这里不需要解释太多——只要它像我。</p >
+</div>
+
+<div class="photos">
+<div class="pol one">
+< img src="assets/photos/p3.jpg">
+</div>
+
+<div class="pol two">
+< img src="assets/photos/p4.jpg">
+</div>
+</div>
+</div>
+
+<a class="back" href=" ">← back</a >
 </div>
 
 </body>
