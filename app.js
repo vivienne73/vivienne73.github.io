@@ -17,3 +17,7 @@ if (el) {
     if (i >= text.length) clearInterval(timer);
   }, 55);
 }
+document.addEventListener("click", (e) => {
+  const a = e.target.closest('a[href="#"], a[href=""]');
+  if (a) e.preventDefault();
+});
