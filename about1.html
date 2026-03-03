@@ -1,64 +1,241 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>About Me — Vivienne</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About • Vivienne</title>
+  <style>
+    :root{
+      --bg1:#fbf7ff;
+      --bg2:#fff9fb;
+      --ink:#1f1f26;
+      --muted:rgba(31,31,38,.62);
+      --glass:rgba(255,255,255,.52);
+      --line:rgba(31,31,38,.10);
+      --shadow: 0 18px 50px rgba(31,31,38,.10);
+      --r:28px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "PingFang SC","Microsoft YaHei", Arial;
+      color:var(--ink);
+      background:
+        radial-gradient(60vw 40vw at 20% 20%, rgba(255,210,230,.35), transparent 60%),
+        radial-gradient(55vw 45vw at 80% 30%, rgba(210,220,255,.38), transparent 58%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
 
-<style>
-body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-background:linear-gradient(180deg,#fff9fc,#f6fbff);
-color:#222;
-padding:60px 20px;
-text-align:center;
-}
+    /* 细腻颗粒感（很淡） */
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.10'/%3E%3C/svg%3E");
+      opacity:.08;
+      pointer-events:none;
+      mix-blend-mode:soft-light;
+    }
 
-.card{
-max-width:600px;
-margin:0 auto;
-background:rgba(255,255,255,.7);
-padding:40px 30px;
-border-radius:24px;
-box-shadow:0 20px 60px rgba(0,0,0,.08);
-}
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:48px 18px;
+    }
 
-h1{
-margin-bottom:20px;
-}
+    .card{
+      width:min(920px, 96vw);
+      border-radius:var(--r);
+      background:var(--glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border:1px solid rgba(255,255,255,.55);
+      box-shadow: var(--shadow);
+      padding:34px 30px 26px;
+      position:relative;
+    }
 
-p{
-line-height:1.8;
-color:#555;
-}
+    /* 顶部小标题：像画册 */
+    .topline{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+      color:var(--muted);
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+    .dotline{
+      flex:1;
+      height:1px;
+      background:linear-gradient(90deg, transparent, var(--line), transparent);
+      opacity:.9;
+    }
 
-.back{
-margin-top:30px;
-display:inline-block;
-padding:10px 20px;
-border-radius:999px;
-background:linear-gradient(135deg,#ffd6ea,#d9ecff);
-text-decoration:none;
-color:#333;
-font-size:14px;
-}
-</style>
+    h1{
+      margin:8px 0 18px;
+      font-family: ui-serif, "Times New Roman", Georgia, "Songti SC", serif;
+      font-size:42px;
+      font-weight:600;
+      letter-spacing:.02em;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:26px;
+      align-items:start;
+    }
+
+    /* 左侧文字：像诗页 */
+    .poem{
+      padding:18px 18px 10px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.34);
+    }
+    .poem p{
+      margin:0 0 14px;
+      line-height:1.9;
+      font-size:15px;
+      color:rgba(31,31,38,.78);
+    }
+    .poem p strong{
+      color:rgba(31,31,38,.92);
+      font-weight:650;
+    }
+    .poem .small{
+      font-size:13px;
+      color:rgba(31,31,38,.55);
+      margin-top:6px;
+    }
+
+    /* 右侧：两张小图像贴纸 */
+    .polaroids{
+      position:relative;
+      min-height:320px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.28);
+      overflow:hidden;
+    }
+    .polaroids:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,210,230,.35), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(210,220,255,.35), transparent 55%);
+      filter: blur(18px);
+      opacity:.65;
+    }
+
+    .pol{
+      position:absolute;
+      width:210px;            /* ✅ 图片更小一点 */
+      border-radius:18px;
+      background:rgba(255,255,255,.62);
+      border:1px solid rgba(255,255,255,.7);
+      box-shadow: 0 14px 30px rgba(31,31,38,.12);
+      padding:10px;
+      transform-origin:center;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .pol img{
+      width:100%;
+      height:160px;           /* ✅ 小图高度 */
+      object-fit:cover;
+      border-radius:14px;
+      display:block;
+      background:rgba(255,255,255,.6);
+    }
+    .pol .cap{
+      margin-top:8px;
+      font-size:12px;
+      color:rgba(31,31,38,.55);
+      letter-spacing:.08em;
+    }
+    .pol:hover{
+      transform: translateY(-4px) rotate(var(--rot));
+      box-shadow: 0 22px 50px rgba(31,31,38,.16);
+    }
+
+    .pol.one{ left:16px; top:26px; --rot:-6deg; transform: rotate(-6deg); }
+    .pol.two{ right:18px; top:92px; --rot:5deg; transform: rotate(5deg); }
+
+    /* 底部按钮 */
+    .actions{
+      display:flex;
+      justify-content:center;
+      margin-top:22px;
+    }
+    .btn{
+      appearance:none;
+      border:1px solid rgba(31,31,38,.14);
+      background:rgba(255,255,255,.55);
+      padding:10px 16px;
+      border-radius:999px;
+      color:rgba(31,31,38,.82);
+      cursor:pointer;
+      text-decoration:none;
+      font-size:13px;
+      letter-spacing:.06em;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background:rgba(255,255,255,.68); }
+
+    footer{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(31,31,38,.45);
+      font-size:12px;
+    }
+
+    @media (max-width:820px){
+      .grid{ grid-template-columns:1fr; }
+      .polaroids{ min-height:360px; }
+      .pol{ width:200px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <main class="card">
+      <div class="topline">
+        <span>ABOUT</span><span class="dotline"></span><span>VIVIENNE</span>
+      </div>
 
-<div class="card">
-<h1>About Me</h1>
+      <h1>About Me</h1>
 
-<p>
-我喜欢艺术的留白，数学的秩序。<br>
-我想把喜欢的感觉做成真实的网页。<br>
-这个空间只是关于我。
-</p >
+      <section class="grid">
+        <div class="poem">
+          <p><strong>我喜欢艺术的留白</strong>，也喜欢数学的秩序。</p >
+          <p>我把一些感受藏进网页里，像把光折成更柔的形状。</p >
+          <p>这里不需要解释太多——<strong>只要它像我。</strong></p >
+          <p class="small">（粉白 / 韩系 / 安静但有互动）</p >
+        </div>
 
-<a href=" " class="back">back</a >
-</div>
+        <div class="polaroids" aria-label="photos">
+          <div class="pol one">
+            < img src="assets/photos/p3.jpg" alt="photo 3" />
+            <div class="cap">photo / 03</div>
+          </div>
 
+          <div class="pol two">
+            < img src="assets/photos/p4.jpg" alt="photo 4" />
+            <div class="cap">photo / 04</div>
+          </div>
+        </div>
+      </section>      <div class="actions">
+        <a class="btn" href=" ">← back</a >
+      </div>
+
+      <footer>© 2026 Vivienne</footer>
+    </main>
+  </div>
 </body>
 </html>
