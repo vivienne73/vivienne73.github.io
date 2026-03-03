@@ -1,50 +1,54 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vivienne</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vivienne</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <!-- 鼠标光晕 -->
+  <div class="halo" aria-hidden="true"></div>
 
-<div class="container">
+  <main class="wrap">
+    <section class="card">
+      <div class="top">
+        < img class="avatar" src="assets/avatar.jpg" alt="Vivienne avatar" />
+        <h1 class="title">Vivienne</h1>
 
-  <!-- 头像 -->
-  <img src="assets/avatar.jpg" class="avatar">
+        <!-- 打字机 -->
+        <p class="subtitle">
+          <span id="type" data-text="soft pink personal space"></span><span class="caret">|</span>
+        </p >
+      </div>
 
-  <h1>Vivienne</h1>
-  <p class="subtitle">soft pink personal space</p >
+      <div class="tiles">
+        <a class="tile" href=" ">
+          < img src="assets/photos/p1.jpg" alt="Story" />
+          <div class="label">Story</div>
+        </a >
 
-  <!-- 四格 -->
-  <div class="grid">
+        <a class="tile" href="./mood.html">
+          < img src="assets/photos/p2.jpg" alt="Mood" />
+          <div class="label">Mood</div>
+        </a >
 
-    <a href=" " class="box">
-      <img src="assets/photos/p1.jpg">
-      <span>Story</span>
-    </a >
+        <a class="tile" href="./art.html">
+          < img src="assets/photos/p3.jpg" alt="Art" />
+          <div class="label">Art</div>
+        </a >
 
-    <a href="./mood.html" class="box">
-      <img src="assets/photos/p2.jpg">
-      <span>Mood</span>
-    </a >
+        <a class="tile" href="./life.html">
+          < img src="assets/photos/p4.jpg" alt="Life" />
+          <div class="label">Life</div>
+        </a >
+      </div>
+    </section>
 
-    <a href="./art.html" class="box">
-      <img src="assets/photos/p3.jpg">
-      <span>Art</span>
-    </a >
+    <footer class="footer">© 2026 Vivienne</footer>
+  </main>
 
-    <a href="./life.html" class="box">
-      <img src="assets/photos/p4.jpg">
-      <span>Life</span>
-    </a >
-
-  </div>
-
-</div>
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
